@@ -1,4 +1,3 @@
-// MovieList.js
 import React, { useEffect, useState } from 'react';
 import {
     Text, Image, FlatList, StyleSheet, SafeAreaView, TouchableOpacity,
@@ -16,6 +15,7 @@ import { normalizeFontSize, scaleHeight, scaleWidth } from '../styles/responsive
 import fonts from '../styles/fonts';
 import { useDispatch, useSelector } from 'react-redux';
 import { SearchIcon } from '../assets/svgs';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';  // Import skeleton placeholder
 
 const MovieList = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -23,7 +23,6 @@ const MovieList = ({ navigation }) => {
     const [page, setPage] = useState(1);
     const [refreshing, setRefreshing] = useState(false);
     const [loader, setLoader] = useState(true);
-
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -52,7 +51,6 @@ const MovieList = ({ navigation }) => {
             .catch(() => setRefreshing(false));
     };
 
-
     const handleLoadMore = () => {
         if (currentPage < totalPages && !loading) {
             setPage((prevPage) => prevPage + 1);
@@ -61,11 +59,22 @@ const MovieList = ({ navigation }) => {
 
     const handleNavigation = (movieId) => {
         resetNavigation(navigation, SCREENS.MOVIE_DETAIL, { movieId: movieId })
-    }
+    };
 
     const showLoader = () => {
-        return <FullScreenLoader
-            loading={loader} />;
+        const skeletonItems = Array.from({ length: 10 }); // Create an array of 10 items to repeat the skeleton
+    
+        return (
+            <SkeletonPlaceholder>
+                {skeletonItems.map((_, index) => (
+                    <View key={index} style={styles.skeletonContainer}>
+                        <View style={styles.skeletonImage} />
+                        <View style={styles.skeletonText} />
+                        <View style={styles.skeletonText} />
+                    </View>
+                ))}
+            </SkeletonPlaceholder>
+        );
     };
 
     const showFooterSpinner = () => {
@@ -119,7 +128,6 @@ const MovieList = ({ navigation }) => {
                         onEndReached={handleLoadMore}
                         onEndReachedThreshold={0.5}
                         showsVerticalScrollIndicator={false}
-                        //contentContainerStyle={styles.list}
                         ListFooterComponent={loading && !refreshing && showFooterSpinner}
                         refreshControl={
                             <RefreshControl
@@ -207,6 +215,25 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         flex: 1,
+    },
+    skeletonContainer: {
+        width: '90%',
+        height: scaleHeight(180),
+        margin: 10,
+        borderRadius: 16,
+        alignSelf: 'center',
+    },
+    skeletonImage: {
+        width: '100%',
+        height: '80%',
+        borderRadius: 16,
+    },
+    skeletonText: {
+        width: '60%',
+        height: 10,
+        marginTop: 10,
+        borderRadius: 5,
+        
     },
 });
 

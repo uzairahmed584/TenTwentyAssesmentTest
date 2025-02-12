@@ -72,9 +72,9 @@ const SearchMovie = ({ navigation }) => {
                     <CrossIcon />
                 </TouchableOpacity>}
             </View>
-            {movies.length > 0 && (
+            {movies?.length > 0 && (
                 <View style={styles.resultsHeader}>
-                    <Text style={styles.resultsText}>Top results ({movies.length})</Text>
+                    <Text style={styles.resultsText}>Top results ({movies?.length})</Text>
                     <View style={styles.horizontalLine} />
                 </View>
             )}

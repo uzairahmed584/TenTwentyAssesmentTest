@@ -1,0 +1,39 @@
+# React Native
+# OSX
+.DS_Store
+
+# node.js
+node_modules/
+
+# Android
+*.apk
+*.ap_ 
+.gradle/
+build/
+
+# iOS
+ios/Pods/
+ios/build/
+ios/.symlinks/
+.idea/
+.vscode/
+
+# React Native packager
+.expo/
+.expo-shared/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Temporary files
+*.log
+*.swp
+
+# macOS
+*.DS_Store
+
+# IDEs
+.vscode/
+
+# Watchman
+.watchmanconfig
